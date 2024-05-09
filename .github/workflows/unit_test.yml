@@ -1,18 +1,32 @@
 name: Unit Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Set up Python
+
+    - name: Set up Python 
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+
+    - name: Check if requirements.txt exists
+      run: test -f requirements.txt || echo "requirements.txt not found"
+
     - name: Install dependencies
-      run: pip install -r requirements.txt  # If you have any dependencies, replace requirements.txt with the correct file name
+      if: success() && steps.existsCheck.outputs['file-found'] == 'true'
+      run: pip install -r requirements.txt
+
     - name: Run unit tests
       run: python -m unittest discover -s Open_Source -p '*_test.py'

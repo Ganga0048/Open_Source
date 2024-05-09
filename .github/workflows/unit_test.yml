@@ -24,5 +24,4 @@ jobs:
 
     - name: Run unit tests
       run: |
-        cd CAB/Open_Source
         python -m unittest test_my_module.py

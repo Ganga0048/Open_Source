@@ -24,4 +24,5 @@ jobs:
 
     - name: Run unit tests
       run: |
-        python -m unittest Open_Source/test_my_module.py
+        cd Open_Source
+        python -m unittest test_my_module.py
